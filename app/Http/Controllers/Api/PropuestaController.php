@@ -10,17 +10,49 @@ use Illuminate\Support\Facades\Http;
 class PropuestaController extends Controller
 {
     // Obtener todas las propuestas
+    /*public function obtenerTodos()
+    {
+        $propuestas = Propuesta::with(['estado', 'plantilla', 'servicio', 'usuario'])->get();
+        return response()->json($propuestas);
+    }*/
     public function obtenerTodos()
     {
-        $propuestas = Propuesta::with(['estado', 'plantilla', 'servicio', 'cliente.organizacion', 'usuario'])->get();
-        return response()->json($propuestas);
+        $propuestas = Propuesta::with(['estado:id,nombre', 'plantilla:id,nombre', 'usuario:id,nombre'])
+            ->select('id', 'id_cliente', 'id_organizacion', 'titulo', 'monto', 'id_estado', 'id_plantilla', 'id_servicio', 'informacion', 'fecha_creacion', 'id_usuario', 'version_publicada') // Excluye 'contenido'
+            ->get();
+
+        // Transformar el resultado para reemplazar las relaciones por sus nombres
+        $resultados = $propuestas->map(function ($propuesta) {
+            return [
+                'id' => $propuesta->id,
+                'id_organizacion' => $propuesta->id_organizacion,
+                'organizacion_nombre' => $propuesta->organizacion->nombre ?? null,
+                'titulo' => $propuesta->titulo,
+                'monto' => $propuesta->monto,
+                'id_estado' => $propuesta->id_estado,
+                'estado_nombre' => $propuesta->estado->nombre ?? null,
+                'id_plantilla' => $propuesta->id_plantilla,
+                'plantilla_nombre' => $propuesta->plantilla->nombre ?? null,
+                'id_servicio' => $propuesta->id_servicio,
+                'servicio_nombre' => $propuesta->servicio->nombre ?? null,
+                'informacion' => $propuesta->informacion,
+                'fecha_creacion' => $propuesta->fecha_creacion,
+                'id_usuario' => $propuesta->id_usuario,
+                'usuario_nombre' => $propuesta->usuario->nombre ?? null,
+                'version_publicada' => $propuesta->version_publicada,
+                // 'contenido' se omite
+            ];
+        });
+
+        return response()->json($resultados);
     }
+
 
     // Obtener una propuesta específica
     public function obtenerUno($id)
     {
-        $propuesta = Propuesta::with(['estado', 'plantilla', 'servicio', 'cliente.organizacion', 'usuario'])->find($id);
-        
+        $propuesta = Propuesta::with(['estado', 'plantilla', 'servicio', 'usuario'])->find($id);
+
         if (!$propuesta) {
             return response()->json(['mensaje' => 'Propuesta no encontrada'], 404);
         }
@@ -101,16 +133,32 @@ class PropuestaController extends Controller
         }
 
         $request->validate([
-            'titulo' => 'required|string|max:255',
-            'monto' => 'required|numeric',
-            'id_estado' => 'required|exists:estado_propuestas,id',
-            'id_plantilla' => 'required|exists:plantillas,id',
-            'id_servicio' => 'required|exists:servicios,id',
-            'id_cliente' => 'required|exists:clientes,id',
-            'informacion' => 'required|string',
+            'id_organizacion' => 'sometimes|exists:organizaciones,id',
+            'titulo' => 'sometimes|string|max:255',
+            'monto' => 'sometimes|numeric',
+            'id_estado' => 'sometimes|exists:estado_propuestas,id',
+            'id_plantilla' => 'sometimes|exists:plantillas,id',
+            'id_servicio' => 'sometimes|exists:servicios,id',
+            'informacion' => 'sometimes|string',
+            'version_publicada' => 'sometimes|exists:versiones_propuestas,id',
+            'html' => 'sometimes|string',
+            'css' => 'sometimes|string',
         ]);
 
-        $propuesta->update($request->all());
+        // Solo actualiza los campos que fueron proporcionados en el request
+        $propuesta->update($request->only([
+            'id_organizacion',
+            'titulo',
+            'monto',
+            'id_estado',
+            'id_plantilla',
+            'id_servicio',
+            'informacion',
+            'version_publicada',
+            'html',
+            'css'
+        ]));
+
         return response()->json($propuesta);
     }
 

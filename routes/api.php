@@ -8,6 +8,10 @@ use App\Http\Controllers\Api\ServicioController;
 use App\Http\Controllers\Api\PropuestaController;
 use App\Http\Controllers\Api\UsuarioController;
 use App\Http\Controllers\Api\PlantillaController;
+use App\Http\Controllers\Api\VersionPropuestaController;
+use App\Http\Controllers\Api\MailController;
+
+
 
 //rutas clientes
 Route::get('clientes', [ClienteController::class, 'obtenerTodos']);
@@ -61,6 +65,14 @@ Route::post('servicios', [ServicioController::class, 'crear']);
 Route::put('servicios/{id}', [ServicioController::class, 'editar']);
 Route::delete('servicios/{id}', [ServicioController::class, 'eliminar']);
 
+//rutas versiones propuestas
+Route::get('versiones-propuesta/{id}', [VersionPropuestaController::class, 'obtenerTodos']); // Obtiene las versiones de una propuesta, id es de la propuesta
+Route::get('version-propuesta/{id}', [VersionPropuestaController::class, 'obtenerUno']);
+Route::post('version-propuesta', [VersionPropuestaController::class, 'crear']);
+Route::put('version-propuesta/{id}', [VersionPropuestaController::class, 'editar']);
+
+// Ruta para envio de correos
+Route::post('/enviar-correo', [MailController::class, 'sendEmail']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

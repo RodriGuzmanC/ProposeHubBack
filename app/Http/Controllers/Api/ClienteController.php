@@ -19,6 +19,7 @@ class ClienteController extends Controller
                 'nombre' => $cliente->nombre,
                 'correo' => $cliente->correo,
                 'telefono' => $cliente->telefono,
+                'id_organizacion' => $cliente->id_organizacion,
                 'organizacion' => $cliente->organizacion ? $cliente->organizacion->nombre : null, // Nombre de la organización
                 'created_at' => $cliente->created_at,
                 'updated_at' => $cliente->updated_at,

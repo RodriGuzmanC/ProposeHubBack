@@ -130,8 +130,8 @@ public function editarContenido(Request $request, $id)
 
         // Validar los datos de entrada
         $request->validate([
-            'nombre' => 'required|string|max:255',
-            'contenido' => 'nullable|string',
+            'nombre' => 'sometimes|required|string|max:255',
+            'contenido' => 'sometimes|nullable|string',
         ]);
 
         // Actualizar la plantilla con los datos del request

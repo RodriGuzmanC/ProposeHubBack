@@ -12,27 +12,26 @@ class Propuesta extends Model
     protected $table = 'propuestas'; // Especificar la tabla si no sigue la convención
 
     protected $fillable = [
+        'id_organizacion',
         'titulo',
         'monto',
         'id_estado',
         'id_plantilla',
         'id_servicio',
-        'id_cliente',
         'informacion',
         'id_usuario', // Asegúrate de incluir esto
+        'version_publicada',
+        'html',
+        'css',
     ];
     public function estado()
     {
         return $this->belongsTo(EstadoPropuesta::class, 'id_estado');
     }
-    public function cliente()
-    {
-        return $this->belongsTo(Cliente::class, 'id_cliente');
-    }
 
     public function organizacion()
     {
-        return $this->hasOneThrough(Organizacion::class, Cliente::class, 'id', 'id', 'id_cliente', 'id_organizacion');
+        return $this->belongsTo(EstadoPropuesta::class, 'id_organizacion');
     }
 
     public function usuario()
@@ -40,13 +39,12 @@ class Propuesta extends Model
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
     public function plantilla()
-{
-    return $this->belongsTo(Plantilla::class, 'id_plantilla');
-}
+    {
+        return $this->belongsTo(Plantilla::class, 'id_plantilla');
+    }
 
-public function servicio()
-{
-    return $this->belongsTo(Servicio::class, 'id_servicio');
+    public function servicio()
+    {
+        return $this->belongsTo(Servicio::class, 'id_servicio');
+    }
 }
-}
-
