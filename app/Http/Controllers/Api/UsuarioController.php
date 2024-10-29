@@ -16,7 +16,7 @@ class UsuarioController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'correo' => 'required|string|email|max:255|unique:usuarios',
-            'contrasena' => 'required|string|confirmed|min:8',
+            'contrasena' => 'required|string',
             'id_rol' => 'required|exists:rol,id',
         ]);
 
@@ -103,7 +103,8 @@ class UsuarioController extends Controller
 
         if ($usuario && Hash::check($request->contrasena, $usuario->contrasena_hash)) {
             session(['usuario_id' => $usuario->id, 'rol_id' => $usuario->id_rol]);
-            return response()->json(['mensaje' => 'Inicio de sesión exitoso.', 'usuario' => $usuario]);
+            $usuarioData = $usuario->makeHidden(['contrasena_hash', 'created_at', 'updated_at']);
+            return response()->json($usuarioData);
         }
 
         return response()->json(['mensaje' => 'Las credenciales son incorrectas.'], 401);

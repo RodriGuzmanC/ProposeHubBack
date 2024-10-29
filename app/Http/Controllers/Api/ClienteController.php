@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class ClienteController extends Controller
 {
@@ -63,7 +65,14 @@ class ClienteController extends Controller
         ]);
 
         // Crear el cliente
-        $cliente = Cliente::create($request->all());
+        //$cliente = Cliente::create($request->all());
+        // Generar una contraseña aleatoria
+        $contrasena = Str::random(10); // Cambia el número si deseas una contraseña más larga
+
+        // Crear el cliente
+        $cliente = Cliente::create(array_merge($request->all(), [
+            'contrasena_hash' => $contrasena,
+        ]));
 
         // Cargar el nombre de la organización si existe
         if ($cliente->id_organizacion) {
@@ -71,6 +80,24 @@ class ClienteController extends Controller
         }
 
         return response()->json($cliente, 201); // 201 Created
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'correo' => 'required|string|email',
+            'contrasena' => 'required|string',
+        ]);
+
+        $cliente = Cliente::where('correo', $request->correo)->first();
+
+        if ($cliente && $request->contrasena == $cliente->contrasena_hash) {
+            //session(['usuario_id' => $cliente->id, 'rol_id' => $cliente->id_rol]);
+            $clienteData = $cliente->makeHidden(['contrasena_hash', 'created_at', 'updated_at']);
+            return response()->json($clienteData);
+        }
+
+        return response()->json(['mensaje' => 'Las credenciales son incorrectas.'], 401);
     }
 
 

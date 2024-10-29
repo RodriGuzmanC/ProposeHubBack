@@ -10,13 +10,13 @@ use App\Http\Controllers\Api\UsuarioController;
 use App\Http\Controllers\Api\PlantillaController;
 use App\Http\Controllers\Api\VersionPropuestaController;
 use App\Http\Controllers\Api\MailController;
-
-
+use App\Http\Controllers\API\RolController;
 
 //rutas clientes
 Route::get('clientes', [ClienteController::class, 'obtenerTodos']);
 Route::get('clientes/{id}', [ClienteController::class, 'obtenerUno']);
 Route::post('clientes', [ClienteController::class, 'crear']);
+Route::post('clientes/login', [ClienteController::class, 'login']);
 Route::put('clientes/{id}', [ClienteController::class, 'editar']);
 Route::delete('clientes/{id}', [ClienteController::class, 'eliminar']);
 
@@ -33,9 +33,11 @@ Route::get('propuestas/{id}', [PropuestaController::class, 'obtenerUno']);
 Route::post('propuestas', [PropuestaController::class, 'crear']);
 Route::put('propuestas/{id}', [PropuestaController::class, 'editar']);
 Route::delete('propuestas/{id}', [PropuestaController::class, 'eliminar']);
+Route::post('propuestas/respuesta-ai', [PropuestaController::class, 'respuestaAI']);
+
 
 //rutas usuarios
-route::post('register', [UsuarioController::class, 'register']);
+Route::post('register', [UsuarioController::class, 'register']);
 Route::post('login', [UsuarioController::class, 'login']);
 Route::post('logout', [UsuarioController::class, 'logout']);
 
@@ -70,6 +72,13 @@ Route::get('versiones-propuesta/{id}', [VersionPropuestaController::class, 'obte
 Route::get('version-propuesta/{id}', [VersionPropuestaController::class, 'obtenerUno']);
 Route::post('version-propuesta', [VersionPropuestaController::class, 'crear']);
 Route::put('version-propuesta/{id}', [VersionPropuestaController::class, 'editar']);
+
+//rutas roles
+Route::get('roles', [RolController::class, 'obtenerTodos']); // Obtiene las versiones de una propuesta, id es de la propuesta
+Route::get('roles/{id}', [RolController::class, 'obtenerUno']);
+Route::post('roles', [RolController::class, 'crear']);
+Route::put('roles/{id}', [RolController::class, 'editar']);
+Route::delete('roles/{id}', [RolController::class, 'eliminar']);
 
 // Ruta para envio de correos
 Route::post('/enviar-correo', [MailController::class, 'sendEmail']);

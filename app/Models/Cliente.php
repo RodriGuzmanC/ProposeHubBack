@@ -16,6 +16,7 @@ class Cliente extends Model
         'correo',
         'telefono',
         'id_organizacion',
+        'contrasena_hash',
     ];
 
     public function organizacion()
