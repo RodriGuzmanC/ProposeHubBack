@@ -43,5 +43,6 @@ class MailController extends Controller
         } catch (Exception $e) {
             return response()->json(['message' => 'Error al enviar el correo: ' . $mail->ErrorInfo], 500);
         }
+        
     }
 }

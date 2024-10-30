@@ -11,65 +11,102 @@ class OrganizacionController extends Controller
     // Método para listar todas las organizaciones
     public function obtenerTodos()
     {
-        $organizaciones = Organizacion::all();
-        return response()->json($organizaciones);
+        try {
+            $organizaciones = Organizacion::all();
+            return response()->json($organizaciones);
+        } catch (\Exception $e) {
+            return response()->json([
+                'mensaje' => $e->getMessage(),
+                'error' => $e->getCode() === 404 ? 'No encontrados' : 'Error del servidor'
+            ], $e->getCode() === 404 ? 404 : 500);
+        }
     }
 
     // Método para mostrar una organización específica
     public function obtenerUno($id)
     {
-        $organizacion = Organizacion::find($id);
-        
-        if (!$organizacion) {
-            return response()->json(['message' => 'Organización no encontrada'], 404);
-        }
+        try {
+            $organizacion = Organizacion::find($id);
 
-        return response()->json($organizacion);
+            if (!$organizacion) {
+                //return response()->json(['message' => 'Organización no encontrada'], 404);
+                throw new \Exception('Organizacion no encontrada', 404);
+            }
+
+            return response()->json($organizacion);
+        } catch (\Exception $e) {
+            return response()->json([
+                'mensaje' => $e->getMessage(),
+                'error' => $e->getCode() === 404 ? 'No encontrado' : 'Error del servidor'
+            ], $e->getCode() === 404 ? 404 : 500);
+        }
     }
 
     // Método para almacenar una nueva organización
     public function crear(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'telefono' => 'nullable|string|max:20',
-            'correo' => 'nullable|string|email|max:255',
-        ]);
+        try {
+            $request->validate([
+                'nombre' => 'required|string|max:255',
+                'telefono' => 'nullable|string|max:20',
+                'correo' => 'nullable|string|email|max:255',
+            ]);
 
-        $organizacion = Organizacion::create($request->all());
-        return response()->json($organizacion, 201); // 201 Created
+            $organizacion = Organizacion::create($request->all());
+            return response()->json($organizacion, 201); // 201 Created
+        } catch (\Exception $e) {
+            return response()->json([
+                'mensaje' => $e->getMessage(),
+                'error' => $e->getCode() === 404 ? 'No creado' : 'Error del servidor'
+            ], $e->getCode() === 404 ? 404 : 500);
+        }
     }
 
     // Método para actualizar una organización existente
     public function editar(Request $request, $id)
     {
-        $organizacion = Organizacion::find($id);
-        
-        if (!$organizacion) {
-            return response()->json(['message' => 'Organización no encontrada'], 404);
+        try {
+            $organizacion = Organizacion::find($id);
+
+            if (!$organizacion) {
+                //return response()->json(['message' => 'Organización no encontrada'], 404);
+                throw new \Exception('Organizacion no encontrada', 404);
+            }
+
+            $request->validate([
+                'nombre' => 'required|string|max:255',
+                'telefono' => 'nullable|string|max:20',
+                'correo' => 'nullable|string|email|max:255',
+            ]);
+
+            $organizacion->update($request->all());
+            return response()->json($organizacion);
+        } catch (\Exception $e) {
+            return response()->json([
+                'mensaje' => $e->getMessage(),
+                'error' => $e->getCode() === 404 ? 'Ocurrio un error al editar' : 'Error del servidor'
+            ], $e->getCode() === 404 ? 404 : 500);
         }
-
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'telefono' => 'nullable|string|max:20',
-            'correo' => 'nullable|string|email|max:255',
-        ]);
-
-        $organizacion->update($request->all());
-        return response()->json($organizacion);
     }
 
     // Método para eliminar una organización
     public function eliminar($id)
     {
-        $organizacion = Organizacion::find($id);
-        
-        if (!$organizacion) {
-            return response()->json(['message' => 'Organización no encontrada'], 404);
-        }
+        try {
+            $organizacion = Organizacion::find($id);
 
-        $organizacion->delete();
-        return response()->json(null, 204); // 204 No Content
+            if (!$organizacion) {
+                //return response()->json(['message' => 'Organización no encontrada'], 404);
+                throw new \Exception('Organizacion no encontrada', 404);
+            }
+
+            $organizacion->delete();
+            return response()->json(null, 204); // 204 No Content
+        } catch (\Exception $e) {
+            return response()->json([
+                'mensaje' => $e->getMessage(),
+                'error' => $e->getCode() === 404 ? 'Ocurrio un error al eliminar' : 'Error del servidor'
+            ], $e->getCode() === 404 ? 404 : 500);
+        }
     }
-    
 }
