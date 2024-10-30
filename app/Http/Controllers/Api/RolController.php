@@ -100,7 +100,7 @@ class RolController extends Controller
             }
 
             $rol->delete();
-            return response()->json(null, 204); // 204 No Content
+            return response()->json($rol, 200); // 204 No Content
         } catch (\Exception $e) {
             return response()->json([
                 'mensaje' => $e->getMessage(),

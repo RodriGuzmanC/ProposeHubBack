@@ -163,7 +163,7 @@ class PropuestaController extends Controller
             }
 
             $propuesta->delete();
-            return response()->json(null, 204); // 204 Sin Contenido
+            return response()->json($propuesta, 200); // 204 Sin Contenido
         } catch (\Exception $e) {
             return response()->json([
                 'mensaje' => $e->getMessage(),

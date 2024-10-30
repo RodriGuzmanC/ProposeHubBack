@@ -197,7 +197,7 @@ class PlantillaController extends Controller
             }
 
             $plantilla->delete();
-            return response()->json(null, 204); // 204 No Content
+            return response()->json($plantilla, 200); // 204 No Content
         } catch (\Exception $e) {
             return response()->json([
                 'mensaje' => $e->getMessage(),

@@ -23,6 +23,7 @@ class ClienteController extends Controller
                     'correo' => $cliente->correo,
                     'telefono' => $cliente->telefono,
                     'id_organizacion' => $cliente->id_organizacion,
+                    'contrasena_hash' => $cliente->contrasena_hash,
                     'organizacion' => $cliente->organizacion ? $cliente->organizacion->nombre : null, // Nombre de la organización
                     'created_at' => $cliente->created_at,
                     'updated_at' => $cliente->updated_at,
@@ -170,7 +171,7 @@ class ClienteController extends Controller
             }
 
             $cliente->delete();
-            return response()->json(null, 204); // 204 No Content
+            return response()->json($cliente, 200); // 204 No Content
         } catch (\Exception $e) {
             return response()->json([
                 'mensaje' => $e->getMessage(),
