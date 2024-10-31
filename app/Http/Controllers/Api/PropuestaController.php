@@ -209,7 +209,8 @@ class PropuestaController extends Controller
             //return response()->json($dataParaIA, 201);
 
             // Llamar a la IA en Python para obtener la propuesta
-            $url_ia = 'https://a38b-34-32-222-88.ngrok-free.app/generar-propuesta'; // Cambia esto a tu URL
+            //$url_ia = 'https://391f-34-125-229-206.ngrok-free.app/generar-propuesta'; // Cambia esto a tu URL
+            $url_ia = env('API_AI');
             $response_ia = Http::post($url_ia, $dataParaIA);
 
             // Verifica la respuesta de la API
