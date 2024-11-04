@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\PlantillaController;
 use App\Http\Controllers\Api\VersionPropuestaController;
 use App\Http\Controllers\Api\MailController;
 use App\Http\Controllers\API\RolController;
+use App\Http\Controllers\API\ImageController;
+
 
 //rutas clientes
 Route::get('clientes', [ClienteController::class, 'obtenerTodos']);
@@ -72,6 +74,15 @@ Route::get('versiones-propuesta/{id}', [VersionPropuestaController::class, 'obte
 Route::get('version-propuesta/{id}', [VersionPropuestaController::class, 'obtenerUno']);
 Route::post('version-propuesta', [VersionPropuestaController::class, 'crear']);
 Route::put('version-propuesta/{id}', [VersionPropuestaController::class, 'editar']);
+Route::get('version-propuesta/en-edicion/{id}', [VersionPropuestaController::class, 'obtenerVersionEnEdicion']); // id de la propuesta
+Route::put('version-propuesta/en-edicion/{id}', [VersionPropuestaController::class, 'cambiarEstadoVersion']); // id de la version
+
+Route::get('version-propuesta/publicada/{id}', [VersionPropuestaController::class, 'obtenerVersionPublicada']); // id de la propuesta
+
+
+//ruta para subir imagenes
+Route::post('subir-imagen/', [ImageController::class, 'store']);
+
 
 //rutas roles
 Route::get('roles', [RolController::class, 'obtenerTodos']); // Obtiene las versiones de una propuesta, id es de la propuesta

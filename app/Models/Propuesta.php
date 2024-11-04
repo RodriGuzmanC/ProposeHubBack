@@ -47,4 +47,9 @@ class Propuesta extends Model
     {
         return $this->belongsTo(Servicio::class, 'id_servicio');
     }
+
+    public function versiones()
+    {
+        return $this->hasMany(VersionPropuesta::class, 'id_propuesta');
+    }
 }
