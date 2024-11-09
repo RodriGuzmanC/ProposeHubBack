@@ -16,6 +16,7 @@ class CreateImagensTable extends Migration
         Schema::create('imagenes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_usuario')->nullable(); // ID del usuario que subió la imagen
+            $table->string('nombre'); // Nombre
             $table->string('path'); // Ruta de la imagen almacenada
             $table->timestamps();
 

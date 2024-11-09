@@ -14,6 +14,7 @@ class Imagen extends Model
     // Campos que se pueden llenar con mass assignment
     protected $fillable = [
         'id_usuario',
+        'nombre',
         'path',
     ];
 

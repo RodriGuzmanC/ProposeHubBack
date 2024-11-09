@@ -162,4 +162,41 @@ class UsuarioController extends Controller
         $request->session()->forget(['usuario_id', 'rol_id']);
         return response()->json(['mensaje' => 'Cierre de sesión exitoso.']);
     }
+
+    // Para cambiar la contrasena
+    public function cambiarClave(Request $request, $id)
+    {
+        try {
+            $usuario = Usuario::find($id);
+
+            if (!$usuario) {
+                //return response()->json(['mensaje' => 'Usuario no encontrado.'], 404);
+                throw new \Exception('Usuario no encontrado', 404);
+            }
+            
+            // Validación de los datos
+            $request->validate([
+                'contrasena_actual' => 'required|string',
+                'contrasena_nueva' => 'required|string|min:8', // confirmed valida el campo 'contrasena_nueva_confirmation'
+            ]);
+
+
+            // Verificar que la contraseña actual proporcionada sea correcta
+            if (!Hash::check($request->contrasena_actual, $usuario->contrasena_hash)) {
+                throw new \Exception('La contraseña actual no es correcta.', 404);
+            }
+
+            // Actualizar la contraseña con la nueva
+            $usuario->contrasena_hash = Hash::make($request->contrasena_nueva);
+            $usuario->save();
+
+            // Redirigir al usuario con un mensaje de éxito
+            return response()->json(['mensaje' => 'La contraseña ha sido actualizada']);
+        } catch (\Exception $e) {
+            return response()->json([
+                'mensaje' => $e->getMessage(),
+                'error' => $e->getCode() === 404 ? 'Ocurrio un error al momento de cambiar la contraseña' : 'Error del servidor'
+            ], $e->getCode() === 404 ? 404 : 500);
+        }
+    }
 }

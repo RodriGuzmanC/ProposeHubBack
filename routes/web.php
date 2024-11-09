@@ -7,6 +7,9 @@ use App\Http\Controllers\OrganizacionController;
 use App\Http\Controllers\ContactosController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\PlantillaController;
+
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 // Ruta para mostrar todas las plantillas
 Route::resource('plantillas', PlantillaController::class);
 // Ruta para descargar PDF
@@ -53,6 +56,17 @@ Route::get('/organizaciones/{id}/edit', [OrganizacionController::class, 'edit'])
 Route::put('/organizaciones/{id}', [OrganizacionController::class, 'update'])->name('organizaciones.update');
 Route::delete('/organizaciones/{id}', [OrganizacionController::class, 'destroy'])->name('organizaciones.destroy');
 
+Route::get('storage/images/{filename}', function ($filename) {
+    $path = storage_path('app/public/' . $filename);
+    if (file_exists($path)) {
+        return Response::make(file_get_contents($path), 200, [
+            'Content-Type' => mime_content_type($path),
+            'Content-Disposition' => 'inline; filename="' . $filename . '"',
+        ]);
+    }
+
+    abort(404); // Si el archivo no existe, devuelve un error 404.
+});
 
 Route::get('/', function () {
     return view('welcome');

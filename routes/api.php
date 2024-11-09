@@ -46,6 +46,7 @@ Route::post('logout', [UsuarioController::class, 'logout']);
 Route::get('usuarios', [UsuarioController::class, 'index']); // Obtener todos los usuarios
 Route::get('usuarios/{id}', [UsuarioController::class, 'show']); // Obtener un usuario
 Route::put('usuarios/{id}', [UsuarioController::class, 'update']); // Actualizar un usuario
+Route::put('usuarios/cambiar-clave/{id}', [UsuarioController::class, 'cambiarClave']); // Actualizar un usuario
 Route::delete('usuarios/{id}', [UsuarioController::class, 'destroy']); // Eliminar un usuario
 
 //rutas plantillas
@@ -81,7 +82,9 @@ Route::get('version-propuesta/publicada/{id}', [VersionPropuestaController::clas
 
 
 //ruta para subir imagenes
-Route::post('subir-imagen/', [ImageController::class, 'store']);
+Route::post('imagenes/', [ImageController::class, 'store']);
+Route::get('imagenes/', [ImageController::class, 'load']);
+
 
 
 //rutas roles
