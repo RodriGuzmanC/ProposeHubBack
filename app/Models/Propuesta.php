@@ -15,6 +15,7 @@ class Propuesta extends Model
         'id_organizacion',
         'titulo',
         'monto',
+        'id_cliente',
         'id_estado',
         'id_plantilla',
         'id_servicio',
@@ -24,6 +25,11 @@ class Propuesta extends Model
         'html',
         'css',
     ];
+
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class, 'id_cliente');
+    }
     public function estado()
     {
         return $this->belongsTo(EstadoPropuesta::class, 'id_estado');

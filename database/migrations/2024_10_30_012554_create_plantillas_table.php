@@ -16,7 +16,7 @@ class CreatePlantillasTable extends Migration
         Schema::create('plantillas', function (Blueprint $table) {
             $table->id(); // Campo 'id' autoincremental
             $table->string('nombre'); // Campo 'nombre' con varchar(255)
-            $table->text('contenido')->nullable(); // Campo 'contenido' que permite null
+            $table->mediumText('contenido')->nullable(); // Campo 'contenido' que permite null
             $table->text('descripcion')->nullable(); // Campo 'descripcion' que permite null
             $table->boolean('is_active')->default(1); // Campo 'is_active' que por defecto es 1
             $table->timestamps(); // Agrega created_at y updated_at
