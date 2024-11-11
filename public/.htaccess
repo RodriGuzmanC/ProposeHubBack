@@ -19,9 +19,15 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
 <IfModule mod_headers.c>
-    <FilesMatch "\.(png|jpg|jpeg|gif|bmp|webp|svg|tiff|mp4|ogg|wav|mp3)$">
+    # Permite el acceso CORS a imágenes, videos, y otros archivos estáticos
+    <Directory "/var/www/html/public/storage">
         Header set Access-Control-Allow-Origin "*"
         Header set Access-Control-Allow-Methods "GET"
-    </FilesMatch>
+        Header set Access-Control-Allow-Headers "Content-Type"
+    </Directory>
 </IfModule>
+
+
+
