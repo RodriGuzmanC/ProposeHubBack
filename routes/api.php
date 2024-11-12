@@ -12,7 +12,7 @@ use App\Http\Controllers\Api\VersionPropuestaController;
 use App\Http\Controllers\Api\MailController;
 use App\Http\Controllers\API\RolController;
 use App\Http\Controllers\API\ImageController;
-
+use App\Http\Controllers\API\PdfController;
 
 //rutas clientes
 Route::get('clientes', [ClienteController::class, 'obtenerTodos']);
@@ -96,6 +96,10 @@ Route::delete('roles/{id}', [RolController::class, 'eliminar']);
 
 // Ruta para envio de correos
 Route::post('/enviar-correo', [MailController::class, 'sendEmail']);
+
+// Ruta de generacion pdf
+Route::post('generar-pdf', [PdfController::class, 'generatePdf']);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
