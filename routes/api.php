@@ -83,7 +83,7 @@ Route::get('version-propuesta/publicada/{id}', [VersionPropuestaController::clas
 
 //ruta para subir imagenes
 Route::post('imagenes/', [ImageController::class, 'store']);
-Route::post('imagenes/buscar', [ImageController::class, 'search']);
+Route::get('imagenes/buscar/{nombre}', [ImageController::class, 'search']);
 Route::get('imagenes/', [ImageController::class, 'load']);
 
 
