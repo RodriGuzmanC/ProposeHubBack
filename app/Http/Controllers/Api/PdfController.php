@@ -55,7 +55,7 @@ class PdfController extends Controller
             // Genera el PDF utilizando Snappy, sin necesidad de especificar la ruta del binario
             $pdf = SnappyPdf::loadHTML($sinVideo)
                 ->setOption('page-width', '164mm')
-                ->setOption('page-height', '231.94mm')
+                ->setOption('page-height', '232.50mm')
                 ->setOption('margin-top', '0mm')
                 ->setOption('margin-bottom', '0mm')
                 ->setOption('margin-left', '0mm')

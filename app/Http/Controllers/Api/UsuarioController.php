@@ -19,7 +19,14 @@ class UsuarioController extends Controller
                 'correo' => 'required|string|email|max:255|unique:usuarios',
                 'contrasena' => 'required|string',
                 'id_rol' => 'required|exists:rol,id',
+                'id_usuario' => 'required'
             ]);
+            // Validacion de permisos
+            $usuarioAdmin = Usuario::find($request->id_usuario);
+
+            if (!$usuarioAdmin || $usuarioAdmin->id_rol != 1) {
+                throw new \Exception('No tienes los permisos necesarios para hacer esta accion', 404);
+            }
 
             $usuario = Usuario::create([
                 'nombre' => $request->nombre,
@@ -81,13 +88,25 @@ class UsuarioController extends Controller
                 //return response()->json(['mensaje' => 'Usuario no encontrado.'], 404);
                 throw new \Exception('Usuario no encontrado', 404);
             }
+            
 
             $request->validate([
                 'nombre' => 'nullable|string|max:255',
                 'correo' => 'nullable|string|email|max:255|unique:usuarios,correo,' . $usuario->id,
                 'id_rol' => 'nullable|exists:rol,id',
                 'contrasena' => 'nullable|string|min:8|confirmed',
+                'id_usuario' => 'required'
             ]);
+
+            if ($usuario->id_rol == 1 && $request->id_rol != 1) {
+                throw new \Exception('No es posible modificar el rol de un administrador', 404);
+            }
+
+            $usuarioAdmin = Usuario::find($request->id_usuario);
+
+            if (!$usuarioAdmin || $usuarioAdmin->id_rol != 1) {
+                throw new \Exception('No tienes los permisos necesarios para hacer esta accion', 404);
+            }
 
             $usuario->nombre = $request->nombre ?? $usuario->nombre;
             $usuario->correo = $request->correo ?? $usuario->correo;
@@ -117,6 +136,10 @@ class UsuarioController extends Controller
             if (!$usuario) {
                 //return response()->json(['mensaje' => 'Usuario no encontrado.'], 404);
                 throw new \Exception('Usuario no encontrado', 404);
+            }
+
+            if ($usuario->id_rol == 1) {
+                throw new \Exception('No es posible eliminar a un administrador', 404);
             }
 
             $usuario->delete();

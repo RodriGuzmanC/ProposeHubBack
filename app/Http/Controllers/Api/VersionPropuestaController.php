@@ -110,7 +110,7 @@ class VersionPropuestaController extends Controller
     }
 
 
-    public function cambiarEstadoVersion(Request $request, $id)
+    public function cambiarEstadoVersion(Request $request, $id) // id de la propuesta
     {
         try {
             $propuesta = Propuesta::find($id);
@@ -129,7 +129,8 @@ class VersionPropuestaController extends Controller
             if (!$version_propuesta) {
                 throw new \Exception('Versión de propuesta no encontrada', 404);
             }
-
+            // lo que hace cambiar el estado de "id_version_propuesta" a "en edicion" y deja a todos los demas en "no edicion"
+            
             $resultado = DB::select('CALL cambiar_estado_version_propuesta(?, ?)', [
                 $id, // idPropuestaIn
                 $request->id_version_propuesta // idVersionIn

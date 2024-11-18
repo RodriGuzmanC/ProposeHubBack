@@ -76,7 +76,7 @@ Route::get('version-propuesta/{id}', [VersionPropuestaController::class, 'obtene
 Route::post('version-propuesta', [VersionPropuestaController::class, 'crear']);
 Route::put('version-propuesta/{id}', [VersionPropuestaController::class, 'editar']);
 Route::get('version-propuesta/en-edicion/{id}', [VersionPropuestaController::class, 'obtenerVersionEnEdicion']); // id de la propuesta
-Route::put('version-propuesta/en-edicion/{id}', [VersionPropuestaController::class, 'cambiarEstadoVersion']); // id de la version
+Route::put('version-propuesta/en-edicion/{id}', [VersionPropuestaController::class, 'cambiarEstadoVersion']); // id de la propuesta
 
 Route::get('version-propuesta/publicada/{id}', [VersionPropuestaController::class, 'obtenerVersionPublicada']); // id de la propuesta
 

@@ -13,8 +13,8 @@ return new class extends Migration
     public function up()
     {
         // Definir el procedimiento almacenado
-        $sql = "DELIMITER $$
-
+        $sql = "
+        DROP PROCEDURE IF EXISTS buscar_imagenes;
 CREATE PROCEDURE buscar_imagenes(IN nombre_buscar VARCHAR(255))
 BEGIN
     -- Buscar coincidencias en las columnas 'path' y 'nombre'
@@ -22,9 +22,8 @@ BEGIN
     FROM imagenes
     WHERE path LIKE CONCAT('%', nombre_buscar, '%') COLLATE utf8mb4_unicode_ci
        OR nombre LIKE CONCAT('%', nombre_buscar, '%') COLLATE utf8mb4_unicode_ci;
-END$$
-
-DELIMITER ;";
+END;
+";
 
         // Ejecutar el SQL para crear el procedimiento almacenado
         DB::unprepared($sql);
@@ -38,6 +37,5 @@ DELIMITER ;";
     public function down()
     {
         // Eliminar el procedimiento almacenado
-        DB::unprepared("DROP PROCEDURE IF EXISTS buscar_imagenes;");
     }
 };
