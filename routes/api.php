@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\MailController;
 use App\Http\Controllers\API\RolController;
 use App\Http\Controllers\API\ImageController;
 use App\Http\Controllers\API\PdfController;
+use App\Http\Controllers\API\RecuperacionContrasenasController;
 
 //rutas clientes
 Route::get('clientes', [ClienteController::class, 'obtenerTodos']);
@@ -48,6 +49,10 @@ Route::get('usuarios/{id}', [UsuarioController::class, 'show']); // Obtener un u
 Route::put('usuarios/{id}', [UsuarioController::class, 'update']); // Actualizar un usuario
 Route::put('usuarios/cambiar-clave/{id}', [UsuarioController::class, 'cambiarClave']); // Actualizar un usuario
 Route::delete('usuarios/{id}', [UsuarioController::class, 'destroy']); // Eliminar un usuario
+
+
+Route::get('recuperar-contrasena/{token}', [RecuperacionContrasenasController::class, 'obtenerToken']); 
+Route::post('recuperar-contrasena/regenerar/', [RecuperacionContrasenasController::class, 'regenerarToken']);
 
 //rutas plantillas
 Route::get('plantillas/', [PlantillaController::class, 'obtenerTodos']);

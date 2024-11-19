@@ -5,6 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Usuario;
 use App\Models\Rol;
+use App\Models\RecuperacionContrasena;
+use Illuminate\Support\Str;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -33,6 +36,11 @@ class UsuarioController extends Controller
                 'correo' => $request->correo,
                 'contrasena_hash' => Hash::make($request->contrasena),
                 'id_rol' => $request->id_rol,
+            ]);
+
+            $token = RecuperacionContrasena::create([
+                'id_usuario' => $usuario->id,
+                'token' => Str::random(60)
             ]);
 
             return response()->json(['mensaje' => 'Usuario registrado exitosamente.', 'usuario' => $usuario], 201);
@@ -222,4 +230,6 @@ class UsuarioController extends Controller
             ], $e->getCode() === 404 ? 404 : 500);
         }
     }
+
+    
 }
