@@ -53,6 +53,7 @@ Route::delete('usuarios/{id}', [UsuarioController::class, 'destroy']); // Elimin
 
 Route::get('recuperar-contrasena/{token}', [RecuperacionContrasenasController::class, 'obtenerToken']); 
 Route::post('recuperar-contrasena/regenerar/', [RecuperacionContrasenasController::class, 'regenerarToken']);
+Route::post('recuperar-contrasena/resetear/', [RecuperacionContrasenasController::class, 'cambiarContrasena']);
 
 //rutas plantillas
 Route::get('plantillas/', [PlantillaController::class, 'obtenerTodos']);

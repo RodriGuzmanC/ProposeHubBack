@@ -28,8 +28,8 @@ class CreatePropuestasTable extends Migration
             $table->timestamps(); // Agrega created_at y updated_at
             $table->foreignId('id_usuario')->nullable(); // Campo 'id_usuario' que permite null
             $table->integer('version_publicada')->nullable(); // Campo 'version_publicada' que permite null
-            $table->text('html')->nullable(); // Campo 'html' que permite null
-            $table->text('css')->nullable(); // Campo 'css' que permite null
+            $table->mediumText('html')->nullable(); // Campo 'html' que permite null
+            $table->mediumText('css')->nullable(); // Campo 'css' que permite null
         });
     }
 

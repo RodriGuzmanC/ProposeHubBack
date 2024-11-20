@@ -20,8 +20,6 @@ class OrganizacionesTableSeeder extends Seeder
                 'nombre' => 'Loopsy Peru',
                 'telefono' => '948948948',
                 'correo' => 'loopsyperu@gmail.com',
-                'created_at' => '2024-10-29 09:19:31',
-                'updated_at' => '2024-10-29 09:31:55',
             ],
         ]);
     }
