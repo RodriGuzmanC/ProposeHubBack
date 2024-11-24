@@ -18,15 +18,21 @@ class PropuestaController extends Controller
         $propuestas = Propuesta::with(['estado', 'plantilla', 'servicio', 'usuario'])->get();
         return response()->json($propuestas);
     }*/
-    public function obtenerTodos()
+    public function obtenerTodos(Request $request)
     {
         try {
-            $propuestas = Propuesta::with(['estado:id,nombre', 'plantilla:id,nombre', 'usuario:id,nombre'])
-                ->select('id', 'id_cliente', 'id_organizacion', 'titulo', 'monto', 'id_estado', 'id_plantilla', 'id_servicio', 'informacion', 'fecha_creacion', 'id_usuario', 'version_publicada') // Excluye 'contenido'
-                ->get();
 
+            $estado = $request->input('estado', 1);
+            $propuestas = Propuesta::with(['estado', 'plantilla', 'usuario'])->get();
+
+            $propuestas->each(function ($propuesta) {
+                $propuesta->plantilla->makeHidden('contenido');
+                $propuesta->makeHidden('html');
+                $propuesta->makeHidden('css');
+
+            });
             // Transformar el resultado para reemplazar las relaciones por sus nombres
-            $resultados = $propuestas->map(function ($propuesta) {
+            /*$resultados = $propuestas->map(function ($propuesta) {
                 return [
                     'id' => $propuesta->id,
                     'id_organizacion' => $propuesta->id_organizacion,
@@ -46,9 +52,9 @@ class PropuestaController extends Controller
                     'version_publicada' => $propuesta->version_publicada,
                     // 'contenido' se omite
                 ];
-            });
+            });*/
 
-            return response()->json($resultados);
+            return response()->json($propuestas);
         } catch (\Exception $e) {
             return response()->json([
                 'mensaje' => $e->getMessage(),

@@ -14,7 +14,7 @@ class PlantillaController extends Controller
             $plantillas = Plantilla::all();
 
             // Formatear la respuesta
-            $plantillasFormateadas = $plantillas->map(function ($plantilla) {
+            /*$plantillasFormateadas = $plantillas->map(function ($plantilla) {
                 return [
                     'id' => $plantilla->id,
                     'nombre' => $plantilla->nombre,
@@ -22,9 +22,9 @@ class PlantillaController extends Controller
                     'created_at' => $plantilla->created_at,
                     'updated_at' => $plantilla->updated_at,
                 ];
-            });
+            });*/
 
-            return response()->json($plantillasFormateadas);
+            return response()->json($plantillas);
         } catch (\Exception $e) {
             return response()->json([
                 'mensaje' => $e->getMessage(),

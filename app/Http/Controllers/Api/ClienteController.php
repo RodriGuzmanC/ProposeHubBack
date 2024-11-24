@@ -15,7 +15,7 @@ class ClienteController extends Controller
         try {
             $clientes = Cliente::with('organizacion')->get();
 
-            // Formatear la respuesta
+            /*// Formatear la respuesta
             $clientesFormateados = $clientes->map(function ($cliente) {
                 return [
                     'id' => $cliente->id,
@@ -28,9 +28,9 @@ class ClienteController extends Controller
                     'created_at' => $cliente->created_at,
                     'updated_at' => $cliente->updated_at,
                 ];
-            });
+            });*/
 
-            return response()->json($clientesFormateados);
+            return response()->json($clientes);
         } catch (\Exception $e) {
             return response()->json([
                 'mensaje' => $e->getMessage(),
@@ -51,7 +51,7 @@ class ClienteController extends Controller
             }
 
             // Formatear la respuesta
-            $clienteFormateado = [
+            /*$clienteFormateado = [
                 'id' => $cliente->id,
                 'nombre' => $cliente->nombre,
                 'correo' => $cliente->correo,
@@ -61,9 +61,9 @@ class ClienteController extends Controller
                 'organizacion' => $cliente->organizacion ? $cliente->organizacion->nombre : null, // Nombre de la organización
                 'created_at' => $cliente->created_at,
                 'updated_at' => $cliente->updated_at,
-            ];
+            ];*/
 
-            return response()->json($clienteFormateado);
+            return response()->json($cliente);
         } catch (\Exception $e) {
             return response()->json([
                 'mensaje' => $e->getMessage(),
