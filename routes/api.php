@@ -95,7 +95,7 @@ Route::get('imagenes/', [ImageController::class, 'load']);
 
 
 //rutas roles
-Route::get('roles', [RolController::class, 'obtenerTodos']); // Obtiene las versiones de una propuesta, id es de la propuesta
+Route::get('roles', [RolController::class, 'obtenerTodos']);
 Route::get('roles/{id}', [RolController::class, 'obtenerUno']);
 Route::post('roles', [RolController::class, 'crear']);
 Route::put('roles/{id}', [RolController::class, 'editar']);

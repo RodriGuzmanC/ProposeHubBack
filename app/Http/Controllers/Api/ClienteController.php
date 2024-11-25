@@ -14,22 +14,6 @@ class ClienteController extends Controller
     {
         try {
             $clientes = Cliente::with('organizacion')->get();
-
-            /*// Formatear la respuesta
-            $clientesFormateados = $clientes->map(function ($cliente) {
-                return [
-                    'id' => $cliente->id,
-                    'nombre' => $cliente->nombre,
-                    'correo' => $cliente->correo,
-                    'telefono' => $cliente->telefono,
-                    'id_organizacion' => $cliente->id_organizacion,
-                    'contrasena_hash' => $cliente->contrasena_hash,
-                    'organizacion' => $cliente->organizacion ? $cliente->organizacion->nombre : null, // Nombre de la organización
-                    'created_at' => $cliente->created_at,
-                    'updated_at' => $cliente->updated_at,
-                ];
-            });*/
-
             return response()->json($clientes);
         } catch (\Exception $e) {
             return response()->json([
@@ -50,19 +34,6 @@ class ClienteController extends Controller
                 throw new \Exception('Cliente no encontrado', 404);
             }
 
-            // Formatear la respuesta
-            /*$clienteFormateado = [
-                'id' => $cliente->id,
-                'nombre' => $cliente->nombre,
-                'correo' => $cliente->correo,
-                'telefono' => $cliente->telefono,
-                'contrasena_hash' => $cliente->contrasena_hash,
-                'organizacion_id' => $cliente->organizacion ? $cliente->organizacion->id : null, // Nombre de la organización
-                'organizacion' => $cliente->organizacion ? $cliente->organizacion->nombre : null, // Nombre de la organización
-                'created_at' => $cliente->created_at,
-                'updated_at' => $cliente->updated_at,
-            ];*/
-
             return response()->json($cliente);
         } catch (\Exception $e) {
             return response()->json([
@@ -82,10 +53,8 @@ class ClienteController extends Controller
                 'id_organizacion' => 'nullable|exists:organizaciones,id',
             ]);
 
-            // Crear el cliente
-            //$cliente = Cliente::create($request->all());
             // Generar una contraseña aleatoria
-            $contrasena = Str::random(10); // Cambia el número si deseas una contraseña más larga
+            $contrasena = Str::random(10);
 
             // Crear el cliente
             $cliente = Cliente::create(array_merge($request->all(), [
@@ -117,12 +86,10 @@ class ClienteController extends Controller
             $cliente = Cliente::where('correo', $request->correo)->first();
 
             if ($cliente && $request->contrasena == $cliente->contrasena_hash) {
-                //session(['usuario_id' => $cliente->id, 'rol_id' => $cliente->id_rol]);
                 $clienteData = $cliente->makeHidden(['contrasena_hash', 'created_at', 'updated_at']);
                 return response()->json($clienteData);
             }
 
-            //return response()->json(['mensaje' => 'Las credenciales son incorrectas.'], 401);
             throw new \Exception('Las credenciales son incorrectas.', 404);
         } catch (\Exception $e) {
             return response()->json([
@@ -139,7 +106,6 @@ class ClienteController extends Controller
             $cliente = Cliente::find($id);
 
             if (!$cliente) {
-                //return response()->json(['message' => 'Cliente no encontrado'], 404);
                 throw new \Exception('Cliente no encontrado', 404);
             }
 
@@ -166,7 +132,6 @@ class ClienteController extends Controller
             $cliente = Cliente::find($id);
 
             if (!$cliente) {
-                //return response()->json(['message' => 'Cliente no encontrado'], 404);
                 throw new \Exception('Cliente no encontrado', 404);
             }
 

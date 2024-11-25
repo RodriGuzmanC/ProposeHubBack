@@ -14,12 +14,12 @@ class AddForeignKeysToClientesTable extends Migration
     public function up()
     {
         // Añadir la clave foránea 'id_organizacion' en la tabla 'clientes'
-        Schema::table('clientes', function (Blueprint $table) {
+        /*Schema::table('clientes', function (Blueprint $table) {
             // Establecer la relación de clave foránea
             $table->foreign('id_organizacion')
-                ->references('id') // Columna de la tabla 'organizaciones'
-                ->on('organizaciones') // Tabla de referencia
-                ->onDelete('cascade'); // Eliminar en cascada si la organización es eliminada
+                ->references('id')
+                ->on('organizaciones')
+                ->onDelete('cascade');
         });
 
         Schema::table('usuarios', function (Blueprint $table) {
@@ -74,7 +74,7 @@ class AddForeignKeysToClientesTable extends Migration
                 ->references('id') // Columna 'id' en la tabla 'usuarios'
                 ->on('usuarios')
                 ->onDelete('set null');
-        });
+        });*/
     }
 
     /**
@@ -85,9 +85,9 @@ class AddForeignKeysToClientesTable extends Migration
     public function down()
     {
         // Eliminar la clave foránea si revertimos la migración
-        Schema::table('clientes', function (Blueprint $table) {
+        /*Schema::table('clientes', function (Blueprint $table) {
             $table->dropForeign(['id_organizacion']);
-        });
+        });*/
 
         // Puedes eliminar más claves foráneas aquí si es necesario.
     }

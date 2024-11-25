@@ -22,6 +22,11 @@ class CreateVersionesPropuestasTable extends Migration
             $table->timestamp('fecha_creacion')->default(DB::raw('CURRENT_TIMESTAMP')); // Campo 'fecha_creacion'
             $table->boolean('generado_por_ia')->default(0); // Campo 'generado_por_ia' que por defecto es 0
             $table->boolean('en_edicion')->default(0); // Campo 'en_edicion' que por defecto es 0
+
+            $table->foreign('id_propuesta')
+                ->references('id')
+                ->on('propuestas')
+                ->onDelete('cascade');
         });
     }
 

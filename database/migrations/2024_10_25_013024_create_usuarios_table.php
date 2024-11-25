@@ -21,6 +21,12 @@ class CreateUsuariosTable extends Migration
             $table->char('contrasena_hash', 60); // Campo 'contrasena_hash' con char(60)
             $table->foreignId('id_rol');
             $table->timestamps(); // Agrega created_at y updated_at
+
+            // Establecer la relación de clave foránea
+            $table->foreign('id_rol')
+                ->references('id')
+                ->on('rol')
+                ->onDelete('cascade');
         });
     }
 

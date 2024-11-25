@@ -21,6 +21,12 @@ class CreateClientesTable extends Migration
             $table->foreignId('id_organizacion');
             $table->timestamps(0); // crea created_at y updated_at sin decimales
             $table->text('contrasena_hash')->nullable();
+
+            // Definir la clave foránea
+            $table->foreign('id_organizacion')
+                  ->references('id')
+                  ->on('organizaciones')
+                  ->onDelete('cascade');
         });
     }
 
