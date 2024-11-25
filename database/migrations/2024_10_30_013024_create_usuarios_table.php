@@ -19,7 +19,7 @@ class CreateUsuariosTable extends Migration
             $table->string('nombre'); // Campo 'nombre' con varchar(255)
             $table->string('correo')->unique(); // Campo 'correo' con varchar(255) y debe ser único
             $table->char('contrasena_hash', 60); // Campo 'contrasena_hash' con char(60)
-            $table->foreignId('id_rol')->nullable(); // Campo 'id_rol' que permite null
+            $table->foreignId('id_rol');
             $table->timestamps(); // Agrega created_at y updated_at
         });
     }

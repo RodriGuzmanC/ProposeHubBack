@@ -14,11 +14,11 @@ class CreateClientesTable extends Migration
     public function up()
     {
         Schema::create('clientes', function (Blueprint $table) {
-            $table->increments('id'); // Cambiado a increments para crear un autoincremental
+            $table->id();
             $table->string('nombre');
             $table->string('correo')->nullable();
             $table->string('telefono', 20)->nullable();
-            $table->unsignedInteger('id_organizacion')->nullable();
+            $table->foreignId('id_organizacion');
             $table->timestamps(0); // crea created_at y updated_at sin decimales
             $table->text('contrasena_hash')->nullable();
         });

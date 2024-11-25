@@ -16,7 +16,7 @@ class CreateVersionesPropuestasTable extends Migration
     {
         Schema::create('versiones_propuestas', function (Blueprint $table) {
             $table->id(); // Campo 'id' autoincremental
-            $table->foreignId('id_propuesta')->nullable(); // Campo 'id_propuesta' que permite null
+            $table->foreignId('id_propuesta');
             $table->integer('version_numero')->nullable(); // Campo 'version_numero' que permite null
             $table->mediumText('contenido')->nullable(); // Campo 'contenido' que permite null
             $table->timestamp('fecha_creacion')->default(DB::raw('CURRENT_TIMESTAMP')); // Campo 'fecha_creacion'
