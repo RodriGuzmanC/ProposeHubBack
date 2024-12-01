@@ -41,7 +41,7 @@ class PropuestaController extends Controller
     public function obtenerUno($id)
     {
         try {
-            $propuesta = Propuesta::with(['estado', 'plantilla', 'servicio', 'usuario'])->find($id);
+            $propuesta = Propuesta::with(['organizacion', 'estado', 'plantilla', 'servicio', 'usuario'])->find($id);
 
             if (!$propuesta) {
                 return response()->json([

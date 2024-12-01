@@ -37,7 +37,7 @@ class Propuesta extends Model
 
     public function organizacion()
     {
-        return $this->belongsTo(EstadoPropuesta::class, 'id_organizacion');
+        return $this->belongsTo(Organizacion::class, 'id_organizacion');
     }
 
     public function usuario()

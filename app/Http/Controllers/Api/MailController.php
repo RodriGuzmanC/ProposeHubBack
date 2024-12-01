@@ -15,6 +15,7 @@ class MailController extends Controller
             'to' => 'required|email',
             'subject' => 'required|string',
             'body' => 'required|string',
+            'notification' => 'sometimes|boolean'
         ]);
 
         $mail = new PHPMailer(true);
@@ -32,6 +33,9 @@ class MailController extends Controller
             // Destinatarios
             $mail->setFrom('eduis.carranza123@gmail.com', 'Eduis Guzman');
             $mail->addAddress($request->input('to'));
+            if ($request->input('notification')) {
+                $mail->addAddress('eduis.carranza123@gmail.com');
+            }
 
             // Contenido del correo
             $mail->isHTML(true);
