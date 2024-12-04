@@ -23,18 +23,18 @@ class MailController extends Controller
         try {
             // Configuración del servidor
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com'; // Cambia esto por tu servidor SMTP
+            $mail->Host = env('MAIL_HOST'); // Cambia esto por tu servidor SMTP
             $mail->SMTPAuth = true;
-            $mail->Username = 'eduis.carranza123@gmail.com'; // Tu correo
-            $mail->Password = 'ovwh ekbw sdaa tgam'; // Tu contraseña
+            $mail->Username = env('MAIL_USERNAME'); // Tu correo
+            $mail->Password = env('MAIL_PASSWORD'); // Tu contraseña
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587; // O 465 para SSL
+            $mail->Port = env('MAIL_PORT'); // O 465 para SSL
 
             // Destinatarios
-            $mail->setFrom('eduis.carranza123@gmail.com', 'Eduis Guzman');
+            $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
             $mail->addAddress($request->input('to'));
             if ($request->input('notification')) {
-                $mail->addAddress('eduis.carranza123@gmail.com');
+                $mail->addAddress(env('MAIL_USERNAME'));
             }
 
             // Contenido del correo

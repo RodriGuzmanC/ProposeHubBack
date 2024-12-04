@@ -35,7 +35,7 @@ return [
     
     'pdf' => [
         'enabled' => true,
-        'binary'  => base_path('vendor\wemersonjanuario\wkhtmltopdf-windows\bin\64bit\wkhtmltopdf.exe'),
+        'binary'  => base_path(env('WKHTMLTOPDF_PATH')),
         'timeout' => false,
         'options' => [],
         'env'     => [],
