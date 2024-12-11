@@ -150,4 +150,27 @@ class ImageController extends Controller
         // Retornar los datos paginados con formato JSON
         return response()->json($imagenes);
     }
+
+    // Eliminar una imagen
+    public function delete($id)
+    {
+        try {
+            $imagen = Imagen::find($id);
+
+            if (!$imagen) {
+                return response()->json([
+                    'mensaje' => 'imagen no encontrada',
+                    'error' => 'No encontrada'
+                ], 404);
+            }
+
+            $imagen->delete();
+            return response()->json($imagen, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'mensaje' => $e->getMessage(),
+                'error' => 'Error del servidor'
+            ], 500);
+        }
+    }
 }

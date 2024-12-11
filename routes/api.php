@@ -91,6 +91,7 @@ Route::get('version-propuesta/publicada/{id}', [VersionPropuestaController::clas
 Route::post('imagenes/', [ImageController::class, 'store']);
 Route::get('imagenes/buscar/{nombre}', [ImageController::class, 'search']);
 Route::get('imagenes/', [ImageController::class, 'load']);
+Route::delete('imagenes/{id}', [ImageController::class, 'delete']);
 
 
 
